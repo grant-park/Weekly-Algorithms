@@ -37,13 +37,15 @@ def split_text(text,part_size):
         completed = []
         temp = []
         for i in range(0,len(text_array)):
-            if (reduce(lambda x,y: x+len(y),temp + [text_array[i]],0) + len(part(counter,min))) < part_size:
+            def check(k):
+                return (reduce(lambda x,y: x+len(y),temp + [text_array[k]],0) + len(part(counter,min)) + len(temp + [text_array[k]]) - 1) < part_size
+            if check(i):
                 temp.append(text_array[i])
             else:
                 completed.append(temp + [part(counter,min)])
                 counter += 1
                 temp = []
-                if (reduce(lambda x,y: x+len(y),temp + [text_array[i]],0) + len(part(counter,min))) < part_size:
+                if check(i):
                     temp = [text_array[i]]
                 else:
                     """
